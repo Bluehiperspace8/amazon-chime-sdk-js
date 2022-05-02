@@ -37,7 +37,7 @@ if (endpoint !== 'https://service.chime.aws.amazon.com') {
 
 const sts = new AWS.STS({ region: 'us-east-1' })
 
-const captureS3Destination = process.env.CAPTURE_S3_DESTINATION;
+const captureS3Destination = "arn:aws:s3:::chimesdk-recordings-gpo501";
 if (captureS3Destination) {
   console.info(`S3 destination for capture is ${captureS3Destination}`)
 } else {
@@ -163,6 +163,7 @@ function serve(host = '127.0.0.1:8080') {
         respond(response, 200, 'application/json', JSON.stringify({}));
       } else if (request.method === 'POST' && requestUrl.pathname === '/startCapture') {
         if (captureS3Destination) {
+
           const callerInfo = await sts.getCallerIdentity().promise()
           pipelineInfo = await chime.createMediaCapturePipeline({
             SourceType: "ChimeSdkMeeting",

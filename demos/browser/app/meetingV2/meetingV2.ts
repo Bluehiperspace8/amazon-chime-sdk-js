@@ -254,6 +254,7 @@ export class DemoMeetingApp
 
   showActiveSpeakerScores = false;
   meeting: string | null = null;
+  recording: string | null = null;
   name: string | null = null;
   voiceConnectorId: string | null = null;
   sipURI: string | null = null;
@@ -408,6 +409,7 @@ export class DemoMeetingApp
     if (this.isRecorder() || this.isBroadcaster()) {
       AsyncScheduler.nextTick(async () => {
         this.meeting = new URL(window.location.href).searchParams.get('m');
+        this.recording = new URL(window.location.href).searchParams.get('m');
         this.name = this.isRecorder() ? '«Meeting Recorder»' : '«Meeting Broadcaster»';
         await this.authenticate();
         await this.openAudioOutputFromSelection();
@@ -608,6 +610,7 @@ export class DemoMeetingApp
     document.getElementById('form-authenticate').addEventListener('submit', e => {
       e.preventDefault();
       this.meeting = (document.getElementById('inputMeeting') as HTMLInputElement).value;
+      this.recording = (document.getElementById('content-share-video') as HTMLInputElement).value;
       this.name = (document.getElementById('inputName') as HTMLInputElement).value;
       this.region = (document.getElementById('inputRegion') as HTMLInputElement).value;
       this.enableSimulcast = (document.getElementById('simulcast') as HTMLInputElement).checked;
